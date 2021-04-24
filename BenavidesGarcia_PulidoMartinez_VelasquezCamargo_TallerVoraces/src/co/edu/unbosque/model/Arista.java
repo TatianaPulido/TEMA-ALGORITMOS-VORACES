@@ -1,5 +1,14 @@
 package co.edu.unbosque.model;
+/**
+ * @author Daniela Benavides
+ * @author Tatiana Pulido
+ * @author Juan Pablo Velasquez 
+ */
 
+/**
+ * Esta clase corresponde a conexión entre dos nodos. Esta conexión tiene un
+ * peso estrictamente mayor a 0.
+ */
 public class Arista {
 
 	private String nodo_origen;
@@ -7,9 +16,14 @@ public class Arista {
 	private double peso;
 
 	/**
-	 * @param nodo_origen
-	 * @param nodo_destino
-	 * @param peso
+	 * 
+	 * Este es el método constructor el cual se le asigna la inicialización de los
+	 * atributos. De esta manera el objecto es creado con un valor inicial. Este
+	 * método se llama automaticamente cuando se crea el objeto.
+	 *
+	 * @param nodo_origen  Este parametro corresponde al nombre del nodo de origen.
+	 * @param nodo_destino Este parametro corresponde al nombre del nodo de destino.
+	 * @param peso         Este parametro corresponde al peso.
 	 */
 	public Arista(String nodo_origen, String nodo_destino, double peso) {
 		this.nodo_origen = nodo_origen;
