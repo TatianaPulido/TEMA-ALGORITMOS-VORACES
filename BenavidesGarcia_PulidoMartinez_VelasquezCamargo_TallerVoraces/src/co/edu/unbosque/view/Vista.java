@@ -29,7 +29,14 @@ public class Vista {
 		System.out.println("Ingrese el nombre de la ciudad " + i);
 		return leer.next();
 	}
-
+	public String pedirTarea(int i) {
+		System.out.println("Ingrese el nombre de la tareas " + i);
+		return leer.next();
+	}
+	public String pedirTrabajador(int i) {
+		System.out.println("Ingrese el nombre del trabajador " + i);
+		return leer.next();
+	}
 	public void mostrarMensaje(String mensaje) {
 		System.out.println(mensaje);
 	}
@@ -47,5 +54,10 @@ public class Vista {
 		String fmt = "%1$-15s %2$-15s %3$-10s%n";
 		System.out.printf(fmt, origen,destino,peso);
 	}
+	public void mostrarTrabajadores(String trabajador,String tarea) {
+		String fmt = "%1$-15s %2$-15s%n";
+		System.out.printf(fmt, trabajador,tarea);
+	}
+
 
 }

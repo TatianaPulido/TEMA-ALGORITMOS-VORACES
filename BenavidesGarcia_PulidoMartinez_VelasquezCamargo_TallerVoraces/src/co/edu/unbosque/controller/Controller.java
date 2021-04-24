@@ -6,11 +6,13 @@
 package co.edu.unbosque.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import co.edu.unbosque.model.AgenteViajero;
 import co.edu.unbosque.model.Arista;
+import co.edu.unbosque.model.AsignacionTareas;
 import co.edu.unbosque.model.Nodo;
 import co.edu.unbosque.view.Vista;
 
@@ -22,6 +24,7 @@ import co.edu.unbosque.view.Vista;
 public class Controller {
 	Vista vista;
 	AgenteViajero agenteViajero;
+	AsignacionTareas asignacionTareas;
 
 	/**
 	 * Este es el método constructor el cual se le asigna la inicialización de los
@@ -30,8 +33,10 @@ public class Controller {
 	 */
 	public Controller() {
 		agenteViajero = new AgenteViajero();
+		asignacionTareas = new AsignacionTareas();
 		vista = new Vista();
 		menu();
+		
 
 	}
 
@@ -56,7 +61,8 @@ public class Controller {
 						conexionesCiudades(ciudades());
 						mostrarResultadoViajero();
 					} else if (opcion == 4) {
-						vista.mostrarMensaje("4");
+						conexionesTareas(trabajadores());
+						mostrarResultadoAsignacionTareas();
 					} else {
 						vista.mostrarMensaje("Usted decidio salir.");
 					}
@@ -75,7 +81,8 @@ public class Controller {
 	/**
 	 * Este método le permite al usuario ingresar el numero de ciudades que desea
 	 * visitar asi como el nombre de cada ciudad. <br>
-	 * <b>pre</b> El número de ciudades debe ser mayor a 1. El nombre de la ciudad no se debe repetir.<br>
+	 * <b>pre</b> El número de ciudades debe ser mayor a 1. El nombre de la ciudad
+	 * no se debe repetir.<br>
 	 * <b>post</b> Se obtiene la lista de las ciudades que el viajero desea
 	 * visitar.<br>
 	 * 
@@ -178,7 +185,7 @@ public class Controller {
 	}
 
 	/**
-	 * Este método le permite al usuario.definir por que ciudad desea comenzar el
+	 * Este método le permite al usuario definir por que ciudad desea comenzar el
 	 * viaje. <br>
 	 * <b>pre</b> El número de ciudades debe ser mayor a 1.<br>
 	 * <b>post</b> El número elegido pos el usuario correspondera a la posición en
@@ -215,11 +222,12 @@ public class Controller {
 	/**
 	 * Este método calcula y muestra la ruta de menor peso desde la ciudad de origen
 	 * hasta volver a ella pasando por todad las ciudades una sola vez ademas,
-	 * nuestra cada una de las rutas con sus respectivos pesos..<br>
+	 * muestra cada una de las rutas con sus respectivos pesos.<br>
 	 * <b>pre</b> El número de ciudades debe ser mayor a 1 y todas las ciudades
-	 * deben estar conectadas entre si.<br>
-	 * <b>post</b> El número elegido por el usuario correspondera a la posición en
-	 * la que se encuentra la ciudad dentro de las lista.<br>
+	 * deben estar conectadas entre si. El número elegido por el usuario
+	 * correspondera a la posición en la que se encuentra la ciudad dentro de las
+	 * lista<br>
+	 * <b>post</b> Calcula la ruta de menor peso ademas y su costo.<br>
 	 * 
 	 */
 	public void mostrarResultadoViajero() {
@@ -242,4 +250,148 @@ public class Controller {
 		vista.mostrarMensaje(ruta);
 		vista.mostrarMensaje("El costo de esta ruta es: " + mejorRuta.get(mejorRuta.size() - 1) + "\n");
 	}
+
+	/**
+	 * Este método le permite al usuario ingresar el numero de trabajadors que desea
+	 * asi como el nombre de cada uno. <br>
+	 * <b>pre</b> La cantidad de trabajadores debe ser mayor a 0. El nombre del
+	 * trabajador no se debe repetir.<br>
+	 * <b>post</b> Se obtiene la lista de los trabajadores<br>
+	 * 
+	 * @return Lista de trabajadores.
+	 */
+	public ArrayList<Nodo> trabajadores() {
+		int nTrabajadores = 0;
+		boolean vTrabajadores = false;
+		ArrayList<Nodo> listaTrabajadores = new ArrayList<>();
+		while (!vTrabajadores) {
+			try {
+				nTrabajadores = vista.leerNumero("Ingrese el número de trabajadores");
+				if (nTrabajadores > 0) {
+					vTrabajadores = true;
+					int contadorC = 0;
+					Pattern rango = Pattern.compile("[a-zA-Z]+");
+
+					while (contadorC != nTrabajadores) {
+						String nombre = vista.pedirTrabajador(contadorC + 1);
+						Matcher cadenaValida = rango.matcher(nombre);
+
+						if (cadenaValida.matches()) {
+							boolean esta = false;
+							for (int i = 0; i < listaTrabajadores.size(); i++) {
+								if (listaTrabajadores.get(i).getNombre().equals(nombre)) {
+									esta = true;
+								}
+							}
+							if (esta) {
+								vista.mostrarMensaje("El trabajador ya se encuentra, ingrese un nombre diferente..");
+							} else {
+								contadorC++;
+								asignacionTareas.agregarTrabajador(nombre);
+								listaTrabajadores = asignacionTareas.getListaTrabajadores();
+
+							}
+						} else {
+							vista.mostrarMensaje(
+									"Ingrese por lo menos una letra, no ingrese caracteres especiales ni numeros.");
+						}
+					}
+				} else {
+					vista.mostrarMensaje("Cantidad de trabajadores debe ser mayor a 0.");
+				}
+			} catch (NumberFormatException e) {
+				vista.mostrarMensaje("Cantidad de trabajadores invalido");
+			}
+
+		}
+
+		return listaTrabajadores;
+
+	}
+
+	/**
+	 * Este método le permite al usuario ingresar el costo que siginfica para un
+	 * trabajador realizar una tarea. <br>
+	 * <b>pre</b> El costo de la tarea debe ser mayor a 0.<br>
+	 * <b>post</b> Todos los trabadores se relacionan con todas las tareas.<br>
+	 * 
+	 * @param listaTrabajadores Este parametro corresponde a una lista de nodos,
+	 *                          cada nodo corresponde a un trabajador.
+	 *                          listaTrabajadores != null, listaTrabajadores != "".
+	 */
+	public void conexionesTareas(ArrayList<Nodo> listaTrabajadores) {
+		Pattern rango = Pattern.compile("[a-zA-Z]+");
+		int numeroTareas = listaTrabajadores.size();
+		ArrayList<String> listaTareas = new ArrayList<>();
+		for (int i = 0; i < listaTrabajadores.size(); i++) {
+			boolean vTarea = false;
+			while (!vTarea) {
+				String tareas = vista.pedirTarea(i + 1);
+				Matcher cadenaValida = rango.matcher(tareas);
+
+				if (cadenaValida.matches()) {
+					listaTareas.add(tareas);
+					vTarea = true;
+				} else {
+					vista.mostrarMensaje(
+							"Ingrese por lo menos una letra, no ingrese caracteres especiales ni numeros.");
+				}
+			}
+		}
+
+		String nombreTrabajador = "";
+		String nombreTarea = "";
+
+		for (int i = 0; i < listaTrabajadores.size(); i++) {
+			nombreTrabajador = listaTrabajadores.get(i).getNombre();
+			for (int j = 0; j < listaTareas.size(); j++) {
+				nombreTarea = listaTareas.get(j);
+				boolean vCosto = false;
+				while (!vCosto) {
+					try {
+						double costo = vista.leerPeso("Ingrese el costo de la tarea " + nombreTarea
+								+ " para el trabajador " + nombreTrabajador);
+						if (costo > 0) {
+							vCosto = true;
+							asignacionTareas.agregarTareas(i, nombreTrabajador, nombreTarea, costo);
+						} else {
+							vista.mostrarMensaje("Costo de la ruta invalido, ingreselo nuevamente.");
+						}
+					} catch (NumberFormatException e) {
+						vista.mostrarMensaje("Costo de la ruta invalido, ingreselo nuevamente.");
+					}
+
+				}
+
+			}
+		}
+	}
+
+	/**
+	 * Este método calcula y muestra cual es la menor tarea que le corresponde a
+	 * cada trabajador, se tiene en cuenta que los trabajadores no pueden repetir
+	 * una tarea.<br>
+	 * <b>pre</b> El número de tareas debe ser igual al número de trabajadores.<br>
+	 * <b>post</b> Se muestran los costos de cada trabajador respecto a cada tarea y
+	 * que tarea le corresponde a cada trabajador.<br>
+	 */
+	public void mostrarResultadoAsignacionTareas() {
+		HashMap<String, String> mejorRuta = asignacionTareas.algoritmoVoraz();
+		ArrayList<Nodo> listaCiudades = asignacionTareas.getListaTrabajadores();
+		vista.mostrarTabla("TRABAJADOR", "TAREA", "PESO");
+		for (int i = 0; i < listaCiudades.size(); i++) {
+			ArrayList<Arista> listaConexiones = listaCiudades.get(i).getLista_rutas();
+			for (int j = 0; j < listaConexiones.size(); j++) {
+				vista.mostrarTabla(listaConexiones.get(j).getNodo_origen(), listaConexiones.get(j).getNodo_destino(),
+						String.valueOf(listaConexiones.get(j).getPeso()));
+			}
+		}
+
+		vista.mostrarMensaje("La mejor tarea para cada trabajador es\n");
+		vista.mostrarTrabajadores("TRABAJADOR", "TAREA");
+		for (String key : mejorRuta.keySet()) {
+			vista.mostrarTrabajadores(key, mejorRuta.get(key));
+		}
+	}
+
 }
