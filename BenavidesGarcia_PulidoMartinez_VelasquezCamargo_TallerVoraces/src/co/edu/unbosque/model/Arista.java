@@ -14,6 +14,8 @@ public class Arista {
 	private String nodo_origen;
 	private String nodo_destino;
 	private double peso;
+	private boolean incluido = false;
+	private boolean print = false;
 
 	/**
 	 * 
@@ -22,12 +24,28 @@ public class Arista {
 	 * método se llama automaticamente cuando se crea el objeto.
 	 *
 	 * @param nodo_origen  Este parametro corresponde al nombre del nodo de origen.
+	 *                     nodo_origen != null, nodo_origen != "".
 	 * @param nodo_destino Este parametro corresponde al nombre del nodo de destino.
-	 * @param peso         Este parametro corresponde al peso.
+	 *                     nodo_destino != null, nodo_destino != "".
+	 * @param peso         Este parametro corresponde al peso. peso != null, peso !=
+	 *                     "".
 	 */
 	public Arista(String nodo_origen, String nodo_destino, double peso) {
 		this.nodo_origen = nodo_origen;
 		this.nodo_destino = nodo_destino;
+		this.peso = peso;
+	}
+
+	/**
+	 * Este es el constructor de la clase Arista el cual solamente se le asigna la
+	 * inicializacion de un atributo. De esta manera este método cumple con la
+	 * función de hacer una sobrecarga de constructores. Ademas, este constructur se
+	 * utiliza para la creacion del algoritmo de prim.
+	 * 
+	 * @param peso Este parametro corresponde al peso de la arista. peso != null,
+	 *             peso != "".
+	 */
+	public Arista(int peso) {
 		this.peso = peso;
 	}
 
@@ -71,6 +89,34 @@ public class Arista {
 	 */
 	public void setPeso(double peso) {
 		this.peso = peso;
+	}
+
+	/**
+	 * @return the incluido
+	 */
+	public boolean isIncluido() {
+		return incluido;
+	}
+
+	/**
+	 * @param incluido the incluido to set
+	 */
+	public void setIncluido(boolean incluido) {
+		this.incluido = incluido;
+	}
+
+	/**
+	 * @return the print
+	 */
+	public boolean isPrint() {
+		return print;
+	}
+
+	/**
+	 * @param print the print to set
+	 */
+	public void setPrint(boolean print) {
+		this.print = print;
 	}
 
 	/*

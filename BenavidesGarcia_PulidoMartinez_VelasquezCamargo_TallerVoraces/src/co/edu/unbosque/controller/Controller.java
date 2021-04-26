@@ -7,13 +7,17 @@ package co.edu.unbosque.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import co.edu.unbosque.model.AgenteViajero;
+import co.edu.unbosque.model.AlgoritmoPrim;
 import co.edu.unbosque.model.Arista;
 import co.edu.unbosque.model.AsignacionTareas;
 import co.edu.unbosque.model.Nodo;
+import co.edu.unbosque.model.Vertice;
 import co.edu.unbosque.view.Vista;
 
 /**
@@ -60,15 +64,17 @@ public class Controller {
 				opcion = vista.mostrarMenu();
 				if (0 <= opcion && opcion <= 4) {
 					if (opcion == 1) {
-						vista.mostrarMensaje("1");
+
+						algoritmoPrim();
+
 					} else if (opcion == 2) {
 						vista.mostrarMensaje("--Algoritmo de Kruskal--");
-						vista.mostrarMensaje("\n\nDe el numero de vertices: ");
+						vista.mostrarMensaje("\n\nDe el número de vértices: ");
 						n = vista.leerNumero("");
 						mKruskal(n);
 						vista.mostrarMensaje("\n\nSolucion : \n");
 						Kruskals();
-						vista.mostrarMensaje("\n\n\nEl peso del arbol minimo es de: " + mincost + "\n");
+						vista.mostrarMensaje("\n\n\nEl peso del árbol mínimo es de: " + mincost + "\n");
 					} else if (opcion == 3) {
 						conexionesCiudades(ciudades());
 						mostrarResultadoViajero();
@@ -76,14 +82,14 @@ public class Controller {
 						conexionesTareas(trabajadores());
 						mostrarResultadoAsignacionTareas();
 					} else {
-						vista.mostrarMensaje("Usted decidio salir.");
+						vista.mostrarMensaje("Usted decidió salir.");
 					}
 				} else {
-					vista.mostrarMensaje("Opcion invalida.");
+					vista.mostrarMensaje("Opción inválida.");
 					opcion = -1;
 				}
 			} catch (NumberFormatException e) {
-				vista.mostrarMensaje("Opcion invalida.");
+				vista.mostrarMensaje("Opción inválida.");
 				opcion = -1;
 			}
 
@@ -572,5 +578,121 @@ public class Controller {
 		return false;
 	}
 	// Fin de la implementacion del algoritmo de Krustal
+
+	// Algoritmo de Prim
+
+	/**
+	 * Este metodo se encarga de implementar el algoritmo de prim. Primero se pide
+	 * el numero de vertices al usuario. Luego se imprime el arbol original y
+	 * finalmente se imprime el arbol de recubrimiento minimo.
+	 */
+	public void algoritmoPrim() {
+
+		vista.mostrarMensaje("\n\nDe el número de vértices: ");
+		n = vista.leerNumero("");
+
+		AlgoritmoPrim prim = new AlgoritmoPrim(createGraph(n));
+		vista.mostrarMensaje("Árbol Orginial");
+		vista.mostrarMensaje(prim.originalGraphToString());
+		prim.run();
+		prim.resetPrintHistory();
+		vista.mostrarMensaje("Árbol de Recubrimiento Mínimo");
+		vista.mostrarMensaje(prim.minimumSpanningTreeToString());
+
+	}
+
+	/**
+	 * Este metodo se encarga de crear los vertices y conexiones del arbol de
+	 * recubrimiento minimo. Ademas, se encarga de crear las aristas con los pesos
+	 * ingresados por el usuario.
+	 * 
+	 * @return Se retorna una lista de los vertices creados.
+	 */
+	public List<Vertice> createGraph(int tam) {
+
+		ArrayList<Vertice> lista_vertices = new ArrayList<Vertice>();
+
+		ArrayList<Arista> lista_aristas = new ArrayList<Arista>();
+
+		for (int i = 0; i < tam; i++) {
+
+			String letra = String.valueOf((char) ('A' + (i)));
+			lista_vertices.add(new Vertice(letra.toUpperCase()));
+
+		}
+
+		HashMap<String, Integer> dic = new HashMap<String, Integer>();
+
+		for (int j2 = 0; j2 < tam; j2++) {
+			dic.put(String.valueOf((char) ('A' + (j2))), j2);
+
+		}
+
+		int[][] matriz = new int[tam][tam];
+
+		for (int i = 0; i < matriz.length; i++) {
+			for (int j = 0; j < matriz[0].length; j++) {
+				matriz[i][j] = 1;
+			}
+		}
+
+		for (int i = 0; i < matriz.length; i++) {
+			for (int j = 0; j < matriz[0].length; j++) {
+
+				if (i != j) {
+
+					if (matriz[i][j] != -1 && matriz[i][j] == 1) {
+
+						System.out.println("Ingrese peso entre " + getKey(dic, i) + " y " + getKey(dic, j));
+						n = vista.leerNumero("");
+
+						if (n != 0) {
+							matriz[i][j] = n;
+							matriz[j][i] = n;
+
+							lista_aristas.add(new Arista(n));
+							lista_vertices.get(dic.get(getKey(dic, i))).addEdge(lista_vertices.get(j),
+									lista_aristas.get(lista_aristas.size() - 1));
+							lista_vertices.get(dic.get(getKey(dic, j))).addEdge(lista_vertices.get(i),
+									lista_aristas.get(lista_aristas.size() - 1));
+
+						} else {
+							matriz[i][j] = n;
+							matriz[j][i] = n;
+						}
+
+					}
+
+				} else {
+					matriz[i][j] = -1;
+				}
+			}
+		}
+
+		return lista_vertices;
+	}
+
+	/**
+	 * Este metodo se encarga de regresar el valor de la llave a partir del valor en
+	 * uno de los items del hashmap o diccionario.
+	 * 
+	 * @param <K>   Este parametro corresponde a la llave del HashMap.
+	 * @param <V>   Este parametro corresponde al valor del HashMap.
+	 * @param map   Este parametro corresponde a un dicionario realizado con
+	 *              HashMap. map != null, map != "".
+	 * @param value Este parametro corresponde al valor al que se desea conseguir su
+	 *              correspondiente llave. value != null, value != "".
+	 * @return Retorna la llave correspondiente.
+	 */
+	public static <K, V> K getKey(Map<K, V> map, V value) {
+
+		for (Map.Entry<K, V> entry : map.entrySet()) {
+
+			if (value.equals(entry.getValue())) {
+				return entry.getKey();
+			}
+		}
+		return null;
+	}
 
 }

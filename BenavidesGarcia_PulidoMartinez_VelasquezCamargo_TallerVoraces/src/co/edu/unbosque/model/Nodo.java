@@ -22,8 +22,10 @@ public class Nodo {
 	 * atributos. De esta manera el objecto es creado con un valor inicial. Este
 	 * método se llama automaticamente cuando se crea el objeto.
 	 * 
-	 * @param nombre      Este parametro corresponde al nombre del nodo.
+	 * @param nombre      Este parametro corresponde al nombre del nodo. nombre !=
+	 *                    null, nombre != "".
 	 * @param lista_rutas Este parametro corresponde a la lista de rutas de un nodo.
+	 *                    lista_rutas != null, lista_rutas != "".
 	 */
 	public Nodo(String nombre, ArrayList<Arista> lista_rutas) {
 		this.nombre = nombre;
