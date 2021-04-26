@@ -592,7 +592,7 @@ public class Controller {
 		n = vista.leerNumero("");
 
 		AlgoritmoPrim prim = new AlgoritmoPrim(createGraph(n));
-		vista.mostrarMensaje("¡rbol Orginial");
+		vista.mostrarMensaje("\n¡rbol Orginial");
 		vista.mostrarMensaje(prim.originalGraphToString());
 		prim.run();
 		prim.resetPrintHistory();
@@ -632,7 +632,7 @@ public class Controller {
 
 		for (int i = 0; i < matriz.length; i++) {
 			for (int j = 0; j < matriz[0].length; j++) {
-				matriz[i][j] = 1;
+				matriz[i][j] = -2;
 			}
 		}
 
@@ -641,9 +641,9 @@ public class Controller {
 
 				if (i != j) {
 
-					if (matriz[i][j] != -1 && matriz[i][j] == 1) {
+					if (matriz[i][j] != -1 && matriz[i][j] == -2) {
 
-						System.out.println("Ingrese peso entre " + getKey(dic, i) + " y " + getKey(dic, j));
+						vista.mostrarMensaje("\nIngrese peso entre " + getKey(dic, i) + " y " + getKey(dic, j));
 						n = vista.leerNumero("");
 
 						if (n != 0) {
