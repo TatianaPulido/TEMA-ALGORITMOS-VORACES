@@ -125,7 +125,7 @@ public class Controller {
 						if (cadenaValida.matches()) {
 							boolean esta = false;
 							for (int i = 0; i < listaCiudades.size(); i++) {
-								if (listaCiudades.get(i).getNombre().equals(lugar)) {
+								if (listaCiudades.get(i).getNombre().equalsIgnoreCase(lugar)) {
 									esta = true;
 								}
 							}
@@ -174,7 +174,7 @@ public class Controller {
 			ciudadOrigen = listaCiudades.get(i).getNombre();
 			for (int j = 0; j < listaCiudades.size(); j++) {
 				ciudadDestino = listaCiudades.get(j).getNombre();
-				if (!ciudadOrigen.equals(ciudadDestino)) {
+				if (!ciudadOrigen.equalsIgnoreCase(ciudadDestino)) {
 					boolean vCosto = false;
 					while (!vCosto) {
 						try {
@@ -221,7 +221,8 @@ public class Controller {
 			try {
 				String mensaje = "Ingrese el número de ciudad por la que desea comenzar el recorrido: \n";
 				for (int j = 0; j < cantidadCiudades; j++) {
-					mensaje += j + ". " + listaCiudades.get(j).getNombre() + "\n";
+					mensaje += j + ". " + listaCiudades.get(j).getNombre();
+					mensaje += (j != (cantidadCiudades - 1)) ? "\n" : "";
 				}
 				valorInicio = vista.leerNumero(mensaje);
 				if (valorInicio >= 0 && valorInicio < cantidadCiudades) {
@@ -297,7 +298,7 @@ public class Controller {
 						if (cadenaValida.matches()) {
 							boolean esta = false;
 							for (int i = 0; i < listaTrabajadores.size(); i++) {
-								if (listaTrabajadores.get(i).getNombre().equals(nombre)) {
+								if (listaTrabajadores.get(i).getNombre().equalsIgnoreCase(nombre)) {
 									esta = true;
 								}
 							}
