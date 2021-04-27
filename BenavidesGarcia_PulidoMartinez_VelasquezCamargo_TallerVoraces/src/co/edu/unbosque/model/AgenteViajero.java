@@ -1,16 +1,15 @@
 package co.edu.unbosque.model;
 
-/**
- * @author Daniela Benavides
- * @author Tatiana Pulido
- * @author Juan Pablo Velasquez 
- */
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Esta clase contiene todos los métodos y atributos necesarios para dar
  * solución al problema del agente viajero a travez de un algoritmo voraz.
+ * 
+ * @author Daniela Benavides
+ * @author Tatiana Pulido
+ * @author Juan Pablo Velasquez
  */
 public class AgenteViajero {
 

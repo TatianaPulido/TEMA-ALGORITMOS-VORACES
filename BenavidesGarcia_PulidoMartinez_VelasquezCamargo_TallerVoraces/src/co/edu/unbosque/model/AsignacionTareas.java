@@ -1,10 +1,5 @@
 package co.edu.unbosque.model;
 
-/**
- * @author Daniela Benavides
- * @author Tatiana Pulido
- * @author Juan Pablo Velasquez 
- */
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,6 +7,9 @@ import java.util.HashMap;
  * Esta clase contiene todos los métodos y atributos necesarios para dar
  * solución al problema de la asignacion de tareas a travez de un algoritmo
  * voraz.
+ * @author Daniela Benavides
+ * @author Tatiana Pulido
+ * @author Juan Pablo Velasquez 
  */
 public class AsignacionTareas {
 
