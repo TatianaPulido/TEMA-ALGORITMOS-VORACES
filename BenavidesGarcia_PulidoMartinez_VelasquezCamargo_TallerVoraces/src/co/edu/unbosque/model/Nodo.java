@@ -3,14 +3,12 @@ package co.edu.unbosque.model;
 import java.util.ArrayList;
 
 /**
- * @author Daniela Benavides
- * @author Tatiana Pulido
- * @author Juan Pablo Velasquez 
- */
-
-/**
  * Esta clase corresponde a un nodo. Cada nodo tiene un nombre y una lista de
  * rutas, cada ruta es una arista.
+ * 
+ * @author Daniela Benavides
+ * @author Tatiana Pulido
+ * @author Juan Pablo Velasquez
  */
 public class Nodo {
 

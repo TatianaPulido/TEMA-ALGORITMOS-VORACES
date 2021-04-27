@@ -6,6 +6,16 @@ import java.util.Map;
 
 import org.apache.commons.math3.util.Pair;
 
+/**
+ * Esta clase corresponde a un vertice o nodo. Cada vertice tiene un nombre, un
+ * estado de visitado y un tipo de diccionario que almacena el vertice y la
+ * arista.
+ * 
+ * @author Daniela Benavides
+ * @author Tatiana Pulido
+ * @author Juan Pablo Velasquez
+ *
+ */
 public class Vertice {
 
 	private String label = null;

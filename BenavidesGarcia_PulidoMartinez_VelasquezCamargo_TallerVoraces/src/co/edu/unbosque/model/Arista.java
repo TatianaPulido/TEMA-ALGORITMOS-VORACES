@@ -1,13 +1,12 @@
 package co.edu.unbosque.model;
-/**
- * @author Daniela Benavides
- * @author Tatiana Pulido
- * @author Juan Pablo Velasquez 
- */
 
 /**
  * Esta clase corresponde a conexión entre dos nodos. Esta conexión tiene un
  * peso estrictamente mayor a 0.
+ * 
+ * @author Daniela Benavides
+ * @author Tatiana Pulido
+ * @author Juan Pablo Velasquez
  */
 public class Arista {
 

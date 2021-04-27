@@ -6,6 +6,14 @@ import java.util.Map;
 
 import org.apache.commons.math3.util.Pair;
 
+/**
+ * Esta clase contiene todos los métodos y atributos necesarios para dar
+ * solución al algoritmo de prim a travez de un algoritmo voraz.
+ * 
+ * @author Daniela Benavides
+ * @author Tatiana Pulido
+ * @author Juan Pablo Velasquez
+ */
 public class AlgoritmoPrim {
 
 	private List<Vertice> graph;
