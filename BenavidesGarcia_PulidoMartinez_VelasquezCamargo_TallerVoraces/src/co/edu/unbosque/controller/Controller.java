@@ -594,16 +594,34 @@ public class Controller {
 	 */
 	public void algoritmoPrim() {
 
-		vista.mostrarMensaje("\n\nDe el número de vértices: ");
-		n = vista.leerNumero("");
+		boolean verificar = false;
+		while (!verificar) {
 
-		AlgoritmoPrim prim = new AlgoritmoPrim(createGraph(n));
-		vista.mostrarMensaje("\nÁrbol Orginial");
-		vista.mostrarMensaje(prim.originalGraphToString());
-		prim.run();
-		prim.resetPrintHistory();
-		vista.mostrarMensaje("Árbol de Recubrimiento Mínimo");
-		vista.mostrarMensaje(prim.minimumSpanningTreeToString());
+			try {
+
+				int n = vista.leerNumero("\nDe el número de vértices: ");
+
+				if (n > 0) {
+
+					verificar = true;
+
+					AlgoritmoPrim prim = new AlgoritmoPrim(createGraph(n));
+					vista.mostrarMensaje("\nÁrbol Orginial");
+					vista.mostrarMensaje(prim.originalGraphToString());
+					prim.run();
+					prim.resetPrintHistory();
+					vista.mostrarMensaje("Árbol de Recubrimiento Mínimo");
+					vista.mostrarMensaje(prim.minimumSpanningTreeToString());
+
+				} else {
+					vista.mostrarMensaje("Solamente se aceptan números enteros positivos. ");
+				}
+
+			} catch (NumberFormatException e) {
+				vista.mostrarMensaje("Valor erroneo.");
+			}
+
+		}
 
 	}
 
@@ -649,22 +667,41 @@ public class Controller {
 
 					if (matriz[i][j] != -1 && matriz[i][j] == -2) {
 
-						vista.mostrarMensaje("\nIngrese peso entre " + getKey(dic, i) + " y " + getKey(dic, j));
-						n = vista.leerNumero("");
+						boolean verificar = false;
+						while (!verificar) {
 
-						if (n != 0) {
-							matriz[i][j] = n;
-							matriz[j][i] = n;
+							try {
 
-							lista_aristas.add(new Arista(n));
-							lista_vertices.get(dic.get(getKey(dic, i))).addEdge(lista_vertices.get(j),
-									lista_aristas.get(lista_aristas.size() - 1));
-							lista_vertices.get(dic.get(getKey(dic, j))).addEdge(lista_vertices.get(i),
-									lista_aristas.get(lista_aristas.size() - 1));
+								int n = vista
+										.leerNumero("\nIngrese peso entre " + getKey(dic, i) + " y " + getKey(dic, j));
 
-						} else {
-							matriz[i][j] = n;
-							matriz[j][i] = n;
+								if (n > 0) {
+
+									if (n != 0) {
+										matriz[i][j] = n;
+										matriz[j][i] = n;
+
+										lista_aristas.add(new Arista(n));
+										lista_vertices.get(dic.get(getKey(dic, i))).addEdge(lista_vertices.get(j),
+												lista_aristas.get(lista_aristas.size() - 1));
+										lista_vertices.get(dic.get(getKey(dic, j))).addEdge(lista_vertices.get(i),
+												lista_aristas.get(lista_aristas.size() - 1));
+
+									} else {
+										matriz[i][j] = n;
+										matriz[j][i] = n;
+									}
+
+									verificar = true;
+
+								} else {
+									vista.mostrarMensaje("No se aceptan valores númericos negativos.");
+								}
+
+							} catch (NumberFormatException e) {
+								vista.mostrarMensaje("Solamente se aceptan valores númericos. ");
+							}
+
 						}
 
 					}
