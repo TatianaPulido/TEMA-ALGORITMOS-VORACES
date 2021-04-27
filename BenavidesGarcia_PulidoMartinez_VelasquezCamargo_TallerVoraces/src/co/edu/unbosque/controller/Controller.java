@@ -303,7 +303,7 @@ public class Controller {
 								}
 							}
 							if (esta) {
-								vista.mostrarMensaje("El trabajador ya se encuentra, ingrese un nombre diferente..");
+								vista.mostrarMensaje("El trabajador ya se encuentra, ingrese un nombre diferente.");
 							} else {
 								contadorC++;
 								asignacionTareas.agregarTrabajador(nombre);
@@ -349,8 +349,20 @@ public class Controller {
 				Matcher cadenaValida = rango.matcher(tareas);
 
 				if (cadenaValida.matches()) {
-					listaTareas.add(tareas);
-					vTarea = true;
+					boolean esta=false;
+					
+					for (int j = 0; j < listaTareas.size(); j++) {
+						if (listaTareas.get(j).equalsIgnoreCase(tareas)) {
+							esta = true;
+						}
+					}
+					if (esta) {
+						vista.mostrarMensaje("La tarea ya se encuentra, ingrese un nombre diferente.");
+					} else {
+						listaTareas.add(tareas);
+
+						vTarea = true;
+					}
 				} else {
 					vista.mostrarMensaje(
 							"Ingrese por lo menos una letra, no ingrese caracteres especiales ni numeros.");
