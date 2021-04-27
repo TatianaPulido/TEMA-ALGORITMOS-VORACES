@@ -1,8 +1,3 @@
-/**
- * @author Daniela Benavides
- * @author Tatiana Pulido
- * @author Juan Pablo Velasquez 
- */
 package co.edu.unbosque.controller;
 
 import java.util.ArrayList;
@@ -24,6 +19,10 @@ import co.edu.unbosque.view.Vista;
  * Esta clase permite la interacción del usuario con las demas funcionalidades
  * de la aplicación, atravez de la vista. Incluidos los métodos de esta clase
  * asi como los métodos de la clase modelo.
+ * 
+ * @author Daniela Benavides
+ * @author Tatiana Pulido
+ * @author Juan Pablo Velasquez
  */
 public class Controller {
 	Vista vista;
@@ -64,13 +63,19 @@ public class Controller {
 				opcion = vista.mostrarMenu();
 				if (0 <= opcion && opcion <= 4) {
 					if (opcion == 1) {
-
 						algoritmoPrim();
-
 					} else if (opcion == 2) {
 						vista.mostrarMensaje("--Algoritmo de Kruskal--");
-						vista.mostrarMensaje("\n\nDe el número de vértices: ");
-						n = vista.leerNumero("");
+						boolean vKruskal = false;
+						while (!vKruskal) {
+							vista.mostrarMensaje("\n\nDe el número de vértices: ");
+							n = vista.leerNumero("");
+							if ((n > 0)) {
+								vKruskal = true;
+							} else {
+								vista.mostrarMensaje("Número de vértices incorrecto, ingreselo nuevamente.");
+							}
+						}
 						mKruskal(n);
 						vista.mostrarMensaje("\n\nSolucion : \n");
 						Kruskals();
@@ -303,7 +308,7 @@ public class Controller {
 								}
 							}
 							if (esta) {
-								vista.mostrarMensaje("El trabajador ya se encuentra, ingrese un nombre diferente.");
+								vista.mostrarMensaje("El trabajador ya se encuentra, ingrese un nombre diferente..");
 							} else {
 								contadorC++;
 								asignacionTareas.agregarTrabajador(nombre);
@@ -349,20 +354,8 @@ public class Controller {
 				Matcher cadenaValida = rango.matcher(tareas);
 
 				if (cadenaValida.matches()) {
-					boolean esta=false;
-					
-					for (int j = 0; j < listaTareas.size(); j++) {
-						if (listaTareas.get(j).equalsIgnoreCase(tareas)) {
-							esta = true;
-						}
-					}
-					if (esta) {
-						vista.mostrarMensaje("La tarea ya se encuentra, ingrese un nombre diferente.");
-					} else {
-						listaTareas.add(tareas);
-
-						vTarea = true;
-					}
+					listaTareas.add(tareas);
+					vTarea = true;
 				} else {
 					vista.mostrarMensaje(
 							"Ingrese por lo menos una letra, no ingrese caracteres especiales ni numeros.");
