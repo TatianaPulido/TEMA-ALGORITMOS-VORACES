@@ -7,9 +7,10 @@ import java.util.HashMap;
  * Esta clase contiene todos los métodos y atributos necesarios para dar
  * solución al problema de la asignacion de tareas a travez de un algoritmo
  * voraz.
+ * 
  * @author Daniela Benavides
  * @author Tatiana Pulido
- * @author Juan Pablo Velasquez 
+ * @author Juan Pablo Velasquez
  */
 public class AsignacionTareas {
 
@@ -91,35 +92,35 @@ public class AsignacionTareas {
 	 * 
 	 * @return Menor tarea para cada trabajador.
 	 */
-	public HashMap<String, String> algoritmoVoraz() {
-		HashMap<String, Boolean> tareasAsignadas = tareasAsignadas();
-		HashMap<String, String> mejorTarea = new HashMap<>();
+	public HashMap<String, String> algoritmoVoraz() {// Complejidad: 7n^2 + 11n + 11
 
-		double menorPeso = Double.MAX_VALUE;
-		String menorTarea = "";
-		String nombreTrabajador = "";
-		int posTrabajador = 0;
-		int posTarea = 0;
-		for (int i = 0; i < listaTrabajadores.size(); i++) {
-			nombreTrabajador = listaTrabajadores.get(i).getNombre();
-			posTrabajador = i;
-			for (int j = 0; j < listaTrabajadores.get(i).getLista_rutas().size(); j++) {
+		HashMap<String, Boolean> tareasAsignadas = tareasAsignadas();// 2
+		HashMap<String, String> mejorTarea = new HashMap<>();// 1
+
+		double menorPeso = Double.MAX_VALUE;// 1
+		String menorTarea = "";// 1
+		String nombreTrabajador = "";// 1
+		int posTrabajador = 0;// 1
+		int posTarea = 0;// 1
+		for (int i = 0; i < listaTrabajadores.size(); i++) {// 2n + 2
+			nombreTrabajador = listaTrabajadores.get(i).getNombre();// 2n
+			posTrabajador = i;// n
+			for (int j = 0; j < listaTrabajadores.get(i).getLista_rutas().size(); j++) {// n(2n + 2)
 				if (menorPeso > listaTrabajadores.get(i).getLista_rutas().get(j).getPeso()
-						&& !tareasAsignadas.get(listaTrabajadores.get(i).getLista_rutas().get(j).getNodo_destino())) {
+						&& !tareasAsignadas.get(listaTrabajadores.get(i).getLista_rutas().get(j).getNodo_destino())) {// n(5n)
 					menorPeso = listaTrabajadores.get(i).getLista_rutas().get(j).getPeso();
 					menorTarea = listaTrabajadores.get(i).getLista_rutas().get(j).getNodo_destino();
 
 					posTarea = j;
 				}
 			}
-			tareasAsignadas.put(listaTrabajadores.get(posTrabajador).getLista_rutas().get(posTarea).getNodo_destino(),
-					true);
-			mejorTarea.put(nombreTrabajador, menorTarea);
-			menorPeso = Double.MAX_VALUE;
-			menorTarea = "";
+			tareasAsignadas.put(listaTrabajadores.get(posTrabajador).getLista_rutas().get(posTarea).getNodo_destino(),true);// n
+			mejorTarea.put(nombreTrabajador, menorTarea);// n
+			menorPeso = Double.MAX_VALUE;// n
+			menorTarea = "";// n
 		}
 
-		return mejorTarea;
+		return mejorTarea;// 1
 	}
 
 	/**

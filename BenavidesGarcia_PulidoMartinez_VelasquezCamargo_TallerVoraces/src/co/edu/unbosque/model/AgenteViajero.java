@@ -99,30 +99,30 @@ public class AgenteViajero {
 	 *               llegada. inicio != null.
 	 * @return Ruta de menor peso y peso total.
 	 */
-	public ArrayList<String> algoritmoVoraz(int inicio) {
-		HashMap<String, Boolean> ciudadesVisitadas = visitasCiudades();
-		ArrayList<String> mejorRuta = new ArrayList<>();
-		ArrayList<Nodo> ciudades_por_visitar = new ArrayList<>(this.listaCiudades);
-		mejorRuta.add(ciudades_por_visitar.get(inicio).getNombre());
-		Nodo anterior = ciudades_por_visitar.get(inicio);
-		String nombreCiudadInicio = anterior.getNombre();
-		ciudades_por_visitar.remove(inicio);
-		ciudadesVisitadas.put(nombreCiudadInicio, true);
-		double pesoRuta = 0;
-		while (!ciudades_por_visitar.isEmpty()) {
-			double menorPeso = Double.MAX_VALUE;
-			String ciudadMenor = "";
-			for (int i = 0; i < anterior.getLista_rutas().size(); i++) {
+	public ArrayList<String> algoritmoVoraz(int inicio) {// Complejidad: 13n^2+16n+19
+		HashMap<String, Boolean> ciudadesVisitadas = visitasCiudades(); // 2
+		ArrayList<String> mejorRuta = new ArrayList<>(); // 2
+		ArrayList<Nodo> ciudades_por_visitar = new ArrayList<>(this.listaCiudades);// 2
+		mejorRuta.add(ciudades_por_visitar.get(inicio).getNombre());// 2
+		Nodo anterior = ciudades_por_visitar.get(inicio);// 2
+		String nombreCiudadInicio = anterior.getNombre();// 1
+		ciudades_por_visitar.remove(inicio);// 1
+		ciudadesVisitadas.put(nombreCiudadInicio, true);// 1
+		double pesoRuta = 0;// 1
+		while (!ciudades_por_visitar.isEmpty()) { // n+1
+			double menorPeso = Double.MAX_VALUE;// n
+			String ciudadMenor = "";// n
+			for (int i = 0; i < anterior.getLista_rutas().size(); i++) { // n(2n + 2)
 				if (menorPeso > anterior.getLista_rutas().get(i).getPeso()
-						&& !ciudadesVisitadas.get(anterior.getLista_rutas().get(i).getNodo_destino())) {
+						&& !ciudadesVisitadas.get(anterior.getLista_rutas().get(i).getNodo_destino())) {// (n)4n
 					menorPeso = anterior.getLista_rutas().get(i).getPeso();
 					ciudadMenor = anterior.getLista_rutas().get(i).getNodo_destino();
 				}
 			}
-			pesoRuta += menorPeso;
-			mejorRuta.add(ciudadMenor);
-			for (int i = 0; i < ciudades_por_visitar.size(); i++) {
-				if (ciudadMenor.equals(ciudades_por_visitar.get(i).getNombre())) {
+			pesoRuta += menorPeso;// 2n
+			mejorRuta.add(ciudadMenor);// n
+			for (int i = 0; i < ciudades_por_visitar.size(); i++) {// n(2n+2)
+				if (ciudadMenor.equals(ciudades_por_visitar.get(i).getNombre())) {// n(5n)
 					anterior = ciudades_por_visitar.get(i);
 					ciudadesVisitadas.put(ciudades_por_visitar.get(i).getNombre(), true);
 					ciudades_por_visitar.remove(i);
@@ -131,15 +131,14 @@ public class AgenteViajero {
 			}
 
 		}
-		for (int i = 0; i < anterior.getLista_rutas().size(); i++) {
-			if (anterior.getLista_rutas().get(i).getNodo_destino().equals(nombreCiudadInicio)) {
+		for (int i = 0; i < anterior.getLista_rutas().size(); i++) {// 2n+2
+			if (anterior.getLista_rutas().get(i).getNodo_destino().equals(nombreCiudadInicio)) {// 4n
 				pesoRuta += anterior.getLista_rutas().get(i).getPeso();
 				mejorRuta.add(nombreCiudadInicio);
 			}
 		}
-		// El ultimo elemento corresponde al peso de la ruta
-		mejorRuta.add(String.valueOf(pesoRuta));
-		return mejorRuta;
+		mejorRuta.add(String.valueOf(pesoRuta));// 1
+		return mejorRuta;// 1
 	}
 
 	/**
