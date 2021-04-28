@@ -459,16 +459,17 @@ public class Controller {
 	public void Kruskals() {
 		for (int i = 1; i <= n; i++) {
 			getMinKL();
-			if (k == l)
+			if (k == l) {
 				break;
+			}
 			vista.mostrarMensaje(l + "-" + k);
 			if (formscycle(i - 1)) {
 				vista.mostrarMensaje(" --> Ya estan en el mismo conjunto\n");
 				i--;
 				continue;
-			} else
+			} else {
 				vista.mostrarMensaje("");
-
+			}
 			mincost = mincost + G[k][l];
 			num_ed = (isPresent(i, k)) ? num_ed : num_ed + 1;
 			num_ed = (isPresent(i, l)) ? num_ed : num_ed + 1;
@@ -482,7 +483,7 @@ public class Controller {
 			}
 
 		}
-		vista.mostrarMensaje("\n¡No hay solucion!\n");
+		vista.mostrarMensaje("\n¡No hay solucion!\n"); // (1)
 	}
 
 	/**
@@ -507,7 +508,7 @@ public class Controller {
 	}
 
 	/**
-	 * Mira que las atistas no formen un ciclo
+	 * Mira que las aristas no formen un ciclo
 	 * 
 	 * @param i donde se encuentra actualmente en el vertice
 	 * @return
@@ -549,12 +550,14 @@ public class Controller {
 	public boolean allconnect(int i) {
 		for (int c = 2; c <= n; c++) {
 			temp = new boolean[n + 1][n + 1];
-			for (int a = 1; a <= n; a++)
-				for (int b = 1; b <= n; b++)
+			for (int a = 1; a <= n; a++) {
+				for (int b = 1; b <= n; b++) {
 					temp[a][b] = temp[b][a] = false;
-
-			if (can_reach(1, c, i) == false)
+				}
+			}
+			if (can_reach(1, c, i) == false) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -569,20 +572,24 @@ public class Controller {
 	 * @return true o false
 	 */
 	public boolean can_reach(int k, int l, int i) {
-		temp[k][l] = temp[l][k] = true;
-		for (int o = 1; o <= i; o++) {
-			if (((k == t[o][1]) && (l == t[o][2])) || ((l == t[o][1]) && (k == t[o][2])))
-				return true;
-			if ((k == t[o][1]) && !(temp[t[o][2]][l])) {
-				if (can_reach(t[o][2], l, i) == true)
+		temp[k][l] = temp[l][k] = true; // 4
+		for (int o = 1; o <= i; o++) { // (2n + 2)
+			if (((k == t[o][1]) && (l == t[o][2])) || ((l == t[o][1]) && (k == t[o][2]))) {// (n + 8)
+				return true; // (n + 1)
+			}
+			if ((k == t[o][1]) && !(temp[t[o][2]][l])) { // (n + 4)
+				if (can_reach(t[o][2], l, i) == true) {
+					return true; //
+				}
+			} else if ((k == t[o][2]) && !(temp[t[o][1]][l])) { // (n + 4)
+				if (can_reach(t[o][1], l, i) == true) {
 					return true;
-			} else if ((k == t[o][2]) && !(temp[t[o][1]][l])) {
-				if (can_reach(t[o][1], l, i) == true)
-					return true;
+				}
 			}
 		}
-		return false;
+		return false; // 1
 	}
+
 	// Fin de la implementacion del algoritmo de Krustal
 
 	// Algoritmo de Prim
