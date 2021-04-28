@@ -94,19 +94,19 @@ public class Vertice {
 	public Pair<Vertice, Arista> nextMinimum() {
 
 		Arista nextMinimum = new Arista(Integer.MAX_VALUE);
-		Vertice nextVertex = this;
+		Vertice nextVertex = this; 
 		Iterator<Map.Entry<Vertice, Arista>> it = edges.entrySet().iterator();
 
 		while (it.hasNext()) {
 
-			Map.Entry<Vertice, Arista> pair = it.next();
+			Map.Entry<Vertice, Arista> pair = it.next(); 
 
-			if (!pair.getKey().isVisited()) {
-				if (!pair.getValue().isIncluido()) {
+			if (!pair.getKey().isVisited()) { 
+				if (!pair.getValue().isIncluido()) { 
 					if (pair.getValue().getPeso() < nextMinimum.getPeso()) {
 
 						nextMinimum = pair.getValue();
-						nextVertex = pair.getKey();
+						nextVertex = pair.getKey(); 
 					}
 				}
 			}

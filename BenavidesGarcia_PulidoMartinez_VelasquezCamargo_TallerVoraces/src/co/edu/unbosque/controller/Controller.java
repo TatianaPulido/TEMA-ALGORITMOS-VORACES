@@ -511,7 +511,7 @@ public class Controller {
 	 * Mira que las aristas no formen un ciclo
 	 * 
 	 * @param i donde se encuentra actualmente en el vertice
-	 * @return
+	 * @return true or false
 	 */
 	public boolean formscycle(int i) {
 		if (isPresent(i, k) && isPresent(i, l)) {
@@ -636,6 +636,9 @@ public class Controller {
 	 * Este metodo se encarga de crear los vertices y conexiones del arbol de
 	 * recubrimiento minimo. Ademas, se encarga de crear las aristas con los pesos
 	 * ingresados por el usuario.
+	 * 
+	 * @param tam Este parametro resperesnta el numero de vertices que desea crear
+	 *            el usuario
 	 * 
 	 * @return Se retorna una lista de los vertices creados.
 	 */

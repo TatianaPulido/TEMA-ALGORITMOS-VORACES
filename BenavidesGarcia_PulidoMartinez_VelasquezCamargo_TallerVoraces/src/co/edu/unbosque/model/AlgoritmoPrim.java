@@ -38,18 +38,19 @@ public class AlgoritmoPrim {
 	 * Despues, isDisconnected devuelve verdadero si todavia hay vertices dentro del
 	 * arbol que no se hayan visitado hasta el momento.
 	 */
-	public void run() {
+	public void run() { 
 		if (graph.size() > 0) {
 			graph.get(0).setVisited(true);
 		}
+		
 		while (isDisconnected()) {
-			Arista nextMinimum = new Arista(Integer.MAX_VALUE);
+			Arista nextMinimum = new Arista(Integer.MAX_VALUE); 
 			Vertice nextVertex = graph.get(0);
-			for (Vertice vertex : graph) {
+			for (Vertice vertex : graph) { 
 				if (vertex.isVisited()) {
 					Pair<Vertice, Arista> candidate = vertex.nextMinimum();
 					if (candidate.getValue().getPeso() < nextMinimum.getPeso()) {
-						nextMinimum = candidate.getValue();
+						nextMinimum = candidate.getValue(); 
 						nextVertex = candidate.getKey();
 					}
 				}
@@ -68,8 +69,8 @@ public class AlgoritmoPrim {
 	 *         visitados.
 	 */
 	private boolean isDisconnected() {
-		for (Vertice vertex : graph) {
-			if (!vertex.isVisited()) {
+		for (Vertice vertex : graph) { 
+			if (!vertex.isVisited()) { 
 				return true;
 			}
 		}
